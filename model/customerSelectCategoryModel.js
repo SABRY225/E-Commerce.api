@@ -5,7 +5,7 @@ const customerSelectCategorySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
     },
-    CategoryID: {
+    categoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
     },

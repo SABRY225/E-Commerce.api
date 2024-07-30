@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../middleware/isAuth');
-const { crateOrder, getOrder, getOrders, deleteOrder, editOrder } = require('../controller/orderController');
+const { crateOrder, getOrder, getOrders, deleteOrder, editOrder, updateOrderStatus } = require('../controller/orderController');
 
 /**
  * @swagger
@@ -22,7 +22,7 @@ const { crateOrder, getOrder, getOrders, deleteOrder, editOrder } = require('../
  *       400:
  *         description: Bad request
  */
-router.post('/create-order', isAuth,crateOrder);
+router.post('/create-order', isAuth, crateOrder);
 
 /**
  * @swagger
@@ -45,7 +45,7 @@ router.post('/create-order', isAuth,crateOrder);
  *       404:
  *         description: Order not found
  */
-router.put('/edit-order/:orderId', isAuth,editOrder);
+router.put('/edit-order/:orderId', isAuth, editOrder);
 
 /**
  * @swagger
@@ -68,7 +68,7 @@ router.put('/edit-order/:orderId', isAuth,editOrder);
  *       404:
  *         description: Order not found
  */
-router.delete('/delete-order/:orderId', isAuth,deleteOrder);
+router.delete('/delete-order/:orderId', isAuth, deleteOrder);
 
 /**
  * @swagger
@@ -89,7 +89,7 @@ router.delete('/delete-order/:orderId', isAuth,deleteOrder);
  *       404:
  *         description: Order not found
  */
-router.get('/order/:orderId', isAuth,getOrder);
+router.get('/order/:orderId', isAuth, getOrder);
 
 /**
  * @swagger
@@ -103,6 +103,38 @@ router.get('/order/:orderId', isAuth,getOrder);
  *       404:
  *         description: No orders found
  */
-router.get('/orders', isAuth,getOrders);
+router.get('/orders', isAuth, getOrders);
+
+/**
+ * @swagger
+ * /api/order/status-order:
+ *   put:
+ *     summary: Update the status of an order
+ *     tags: [Order]
+ *     parameters:
+ *       - in: body
+ *         name: orderStatus
+ *         description: Order status update object
+ *         schema:
+ *           type: object
+ *           required:
+ *             - orderId
+ *             - status
+ *           properties:
+ *             orderId:
+ *               type: string
+ *               description: The ID of the order
+ *             status:
+ *               type: string
+ *               description: The new status of the order
+ *     responses:
+ *       200:
+ *         description: Order status updated successfully
+ *       400:
+ *         description: Bad request
+ *       404:
+ *         description: Order not found
+ */
+router.put('/status-order', isAuth, updateOrderStatus);
 
 module.exports = router;

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const isAuth = require('../middleware/isAuth');
-const { register, login, forgetPassword, refershToken } = require('../controller/authController');
-const { sendOtp, verifyOtp } = require('../controller/otpController');
+const { register, login, forgetPassword, refreshToken } = require('../controller/authController');
+const {  verifyOTP, sendOTP } = require('../controller/otpController');
 
 /**
  * @swagger
@@ -17,13 +16,23 @@ const { sendOtp, verifyOtp } = require('../controller/otpController');
  *   post:
  *     summary: Log in
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Password:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Successful login
- *       401:
- *         description: Unauthorized
  */
-router.post('/login', isAuth,login);
+router.post('/login', login);
 
 /**
  * @swagger
@@ -31,13 +40,35 @@ router.post('/login', isAuth,login);
  *   post:
  *     summary: Register
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Password:
+ *                 type: string
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               County:
+ *                 type: string
+ *               City:
+ *                 type: string
+ *               Address:
+ *                 type: string
  *     responses:
  *       201:
  *         description: User created successfully
  *       400:
  *         description: Bad request
  */
-router.post('/register', isAuth,register);
+router.post('/register', register);
 
 /**
  * @swagger
@@ -45,13 +76,27 @@ router.post('/register', isAuth,register);
  *   put:
  *     summary: Forgot password
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Otp:
+ *                 type: string
+ *               newPassword:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Password reset link sent
  *       400:
  *         description: Bad request
  */
-router.put('/forget-password', isAuth),forgetPassword;
+router.put('/forget-password', forgetPassword);
 
 /**
  * @swagger
@@ -59,13 +104,23 @@ router.put('/forget-password', isAuth),forgetPassword;
  *   post:
  *     summary: Send OTP
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string 
+ *                 format: email
  *     responses:
  *       200:
  *         description: OTP sent successfully
  *       400:
  *         description: Bad request
  */
-router.post('/send-otp', isAuth,sendOtp);
+router.post('/send-otp',sendOTP);
 
 /**
  * @swagger
@@ -73,25 +128,54 @@ router.post('/send-otp', isAuth,sendOtp);
  *   post:
  *     summary: Verify OTP
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Otp:
+ *                 type: string
  *     responses:
  *       200:
  *         description: OTP verified successfully
  *       400:
  *         description: Invalid OTP
  */
-router.post('/verify-otp', isAuth,verifyOtp);
+router.post('/verify-otp', verifyOTP);
 
 /**
  * @swagger
- * /api/auth/refersh-token:
+ * /api/auth/refresh-token:
  *   post:
- *     summary: Refersh Token
+ *     summary: Refresh Token
  *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
  *     responses:
  *       200:
- *         description: Refersh Token  successfully
+ *         description: Token refreshed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
  *       400:
- *         description: Invalid Refersh Token
+ *         description: Invalid refresh token
  */
-router.post('/refersh-token', isAuth,refershToken);
+router.post('/refresh-token', refreshToken);
+
 module.exports = router;

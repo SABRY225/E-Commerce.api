@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../middleware/isAuth');
-const { editCategory, crateCategory, getCategory, getCategories, deleteCategory } = require('../controller/categoryController');
+const { editCategory, getCategory, deleteCategory, createCategory, getCategories } = require('../controller/categoryController');
 
 /**
  * @swagger
@@ -16,13 +16,22 @@ const { editCategory, crateCategory, getCategory, getCategories, deleteCategory 
  *   post:
  *     summary: Create a new category
  *     tags: [Category]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               categoryName:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Category created successfully
  *       400:
  *         description: Bad request
  */
-router.post('/create-category', isAuth,crateCategory);
+router.post('/create-category', isAuth,createCategory);
 
 /**
  * @swagger
@@ -37,6 +46,15 @@ router.post('/create-category', isAuth,crateCategory);
  *           type: string
  *         required: true
  *         description: The ID of the category to edit
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               categoryName:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Category updated successfully
@@ -72,13 +90,13 @@ router.delete('/delete-category/:categoryId', isAuth,deleteCategory);
 
 /**
  * @swagger
- * /api/category/{categoryId}:
+ * /api/category/category/{id}:
  *   get:
  *     summary: Get a category by ID
  *     tags: [Category]
  *     parameters:
  *       - in: path
- *         name: categoryId
+ *         name: id
  *         schema:
  *           type: string
  *         required: true
@@ -89,11 +107,11 @@ router.delete('/delete-category/:categoryId', isAuth,deleteCategory);
  *       404:
  *         description: Category not found
  */
-router.get('/category/:categoryId', isAuth,getCategory);
+router.get('/category/:id', isAuth, getCategory);
 
 /**
  * @swagger
- * /api/category/categories:
+ * /api/category/all-Categories:
  *   get:
  *     summary: Get all categories
  *     tags: [Category]
@@ -103,6 +121,6 @@ router.get('/category/:categoryId', isAuth,getCategory);
  *       404:
  *         description: No categories found
  */
-router.get('/categories', isAuth,getCategories);
+router.get('/all-Categories', isAuth,getCategories);
 
 module.exports = router;

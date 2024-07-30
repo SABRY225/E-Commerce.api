@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ProuductSchema = new mongoose.Schema({
-    CategoryID: {
+    categoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
     },
@@ -9,11 +9,11 @@ const ProuductSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    quantity: {
+    Quantity: {
         type: Number,
         required: true
     },
-    price: {
+    Price: {
         type: Number,
         required: true
     },

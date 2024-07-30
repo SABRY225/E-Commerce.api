@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const CustomerSchema = new mongoose.Schema({
-    role: {
-        type: string,
+    Role: {
+        type: String,
         require:true,
-        enum: ['User', 'Admin'],
+        enum: ['User', 'Admin',"Delivery Personnel"],
         default: 'User',
     },
     firstName: {
@@ -15,43 +15,31 @@ const CustomerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
+    Address: {
         type: String,
         required: true
     },
-    email: {
+    Email: {
         type: String,
         required: true,
         unique: true
     },
-    password: {
+    Password: {
         type: String,
         required: true
     },
-    city: {
+    City: {
         type: String,
         required: true
     },
-    postalCode: {
+    County: {
         type: String,
         required: true
     },
-    county: {
-        type: String,
-        required: true
-    },
-    creditCard: {
-        type: String,
-        required: true
-    },
-    creditCardType: {
-        type: String,
-        required: true
-    },
-    creditCardDate: {
-        type: String,
-        required: true
-    },
+    verified: {
+        type: Boolean,
+        default:false
+    }
 });
 
 module.exports = mongoose.model('Customer', CustomerSchema);

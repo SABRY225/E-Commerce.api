@@ -22,7 +22,7 @@ const corsOptions = {
 };
 require('dotenv').config();
 app.use(express.json());
-app.use(cors(corsOptions));
+app.use(cors());
 // Connect Database
 connectDB();
 
@@ -36,6 +36,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
+app.use('/api/auth',require('./routes/authRoute'));
+app.use('/api/category', require('./routes/categoryRoute'));
+app.use('/api/vehicle', require('./routes/vehicleRoute'));
+app.use('/api/user', require('./routes/userRoute'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

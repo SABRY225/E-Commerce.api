@@ -30,6 +30,23 @@ router.get('/current-user', isAuth,getUser);
  *   put:
  *     summary: Edit user info
  *     tags: [User]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *               lastName:
+ *                 type: string
+ *               City:
+ *                 type: string
+ *               County:
+ *                 type: string
+ *               Address:
+ *                 type: string
  *     responses:
  *       200:
  *         description: User info updated successfully
@@ -40,10 +57,17 @@ router.put('/edit-info', isAuth,editUser);
 
 /**
  * @swagger
- * /api/user/delete-user:
+ * /api/user/delete-user/{userID}:
  *   delete:
  *     summary: Delete user
  *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: userID
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user to be deleted
  *     responses:
  *       200:
  *         description: User deleted successfully
@@ -52,7 +76,8 @@ router.put('/edit-info', isAuth,editUser);
  *       404:
  *         description: User not found
  */
-router.delete('/delete-user', isAuth,deleteUser);
+router.delete('/delete-user/:userID', isAuth, deleteUser);
+
 
 /**
  * @swagger

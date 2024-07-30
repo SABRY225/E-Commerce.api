@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-    CategoryID: {
+    categoryID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Category',
     },
@@ -16,6 +16,12 @@ const OrderSchema = new mongoose.Schema({
     orderData: {
         type: Date,
         required: true
+    },
+    Status: {
+        type: String,
+        required: true,
+        enum: ['SendToAdmin',"SendToDelivery", 'NotDone','NotDone'],
+        default:"SendToAdmin"
     },
 });
 

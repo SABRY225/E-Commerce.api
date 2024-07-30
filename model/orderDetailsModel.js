@@ -9,15 +9,15 @@ const OrderDetailsSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
-    price: {
+    Price: {
         type: Number,
         required: true
     },
-    total: {
+    Total: {
         type: Number,
         required: true
     },
-    quantity: {
+    Quantity: {
         type: Number,
         required: true
     },

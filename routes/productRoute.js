@@ -1,7 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../middleware/isAuth');
-const { cratePayment, editPayment, deletePayment, getPayment, getPayments } = require('../controller/paymentController');
+const {
+    createProduct,
+    editProduct,
+    deleteProduct,
+    getProduct,
+    getProducts
+} = require('../controller/productController');
 
 /**
  * @swagger
@@ -12,18 +18,44 @@ const { cratePayment, editPayment, deletePayment, getPayment, getPayments } = re
 
 /**
  * @swagger
- * /api/product/create-product:
+ * /api/product/{categoryID}/create-product:
  *   post:
  *     summary: Create a new product
  *     tags: [Product]
+ *     parameters:
+ *       - in: path
+ *         name: categoryID
+ *         schema:
+ *           type: string
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productName:
+ *                 type: string
+ *               productImg:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               quantity:
+ *                 type: number
+ *               price:
+ *                 type: number
+ *               productDescription:
+ *                 type: string
+ *               productReview:
+ *                 type: number
  *     responses:
  *       201:
  *         description: Product created successfully
  *       400:
  *         description: Bad request
  */
-router.post('/create-product', isAuth,cratePayment);
-
+router.post('/:categoryID/create-product', isAuth, createProduct);
 /**
  * @swagger
  * /api/product/edit-product/{productId}:
@@ -36,7 +68,27 @@ router.post('/create-product', isAuth,cratePayment);
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the product to edit
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productName:
+ *                 type: string
+ *               productImg:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *               quantity:
+ *                 type: number
+ *               price:
+ *                 type: number
+ *               productDescription:
+ *                 type: string
+ *               productReview:
+ *                 type: number
  *     responses:
  *       200:
  *         description: Product updated successfully
@@ -45,7 +97,7 @@ router.post('/create-product', isAuth,cratePayment);
  *       404:
  *         description: Product not found
  */
-router.put('/edit-product/:productId', isAuth,editPayment);
+router.put('/edit-product/:productId', isAuth, editProduct);
 
 /**
  * @swagger
@@ -68,11 +120,11 @@ router.put('/edit-product/:productId', isAuth,editPayment);
  *       404:
  *         description: Product not found
  */
-router.delete('/delete-product/:productId', isAuth,deletePayment);
+router.delete('/delete-product/:productId', isAuth, deleteProduct);
 
 /**
  * @swagger
- * /api/product/{productId}:
+ * /api/product/singleproduct/{productId}:
  *   get:
  *     summary: Get a product by ID
  *     tags: [Product]
@@ -89,7 +141,7 @@ router.delete('/delete-product/:productId', isAuth,deletePayment);
  *       404:
  *         description: Product not found
  */
-router.get('/product/:productId', isAuth,getPayment);
+router.get('/singleproduct/:productId', isAuth, getProduct);
 
 /**
  * @swagger
@@ -103,6 +155,6 @@ router.get('/product/:productId', isAuth,getPayment);
  *       404:
  *         description: No products found
  */
-router.get('/products', isAuth,getPayments);
+router.get('/products', isAuth, getProducts);
 
 module.exports = router;

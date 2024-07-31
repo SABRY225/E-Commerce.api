@@ -22,17 +22,41 @@ const {
 
 /**
  * @swagger
- * /api/deliveryPersonnel/add-deliveryPersonnel:
+ * /api/deliveryPersonnel/add-deliveryPersonnel/{vehicleID}:
  *   post:
  *     summary: Add a new delivery personnel
  *     tags: [deliveryPersonnel]
+ *     parameters:
+ *       - in: path
+ *         name: vehicleID
+ *         schema:
+ *           type: string
+ *         required: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Name:
+ *                 type: string
+ *               Phone:
+ *                 type: string
+ *               Address:
+ *                 type: string
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Password:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Delivery personnel added successfully
  *       400:
  *         description: Bad request
  */
-router.post('/add-deliveryPersonnel', isAuth, addDeliveryPersonnel);
+router.post('/add-deliveryPersonnel/:vehicleID', isAuth, addDeliveryPersonnel);
 
 /**
  * @swagger
@@ -70,19 +94,26 @@ router.delete('/delete-deliveryPersonnel/:personnelId', isAuth, deleteDeliveryPe
  *           type: string
  *         required: true
  *         description: The ID of the delivery personnel to edit
- *       - in: body
- *         name: personnel
- *         description: Delivery personnel object to be edited
- *         schema:
- *           type: object
- *           required:
- *             - name
- *             - phone
- *           properties:
- *             name:
- *               type: string
- *             phone:
- *               type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Name:
+ *                 type: string
+ *               Phone:
+ *                 type: string
+ *               Address:
+ *                 type: string
+ *               Email:
+ *                 type: string
+ *                 format: email
+ *               Password:
+ *                 type: string
+ *               vehicleID:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Delivery personnel updated successfully

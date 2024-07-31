@@ -6,7 +6,7 @@ const DeliveryPersonnelSchema = new mongoose.Schema({
         required: true
     },
     Phone: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -27,6 +27,10 @@ const DeliveryPersonnelSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Vehicle',
     },
+    verified: {
+        type: Boolean,
+        default:true
+    }
 });
 
 module.exports = mongoose.model('DeliveryPersonnel', DeliveryPersonnelSchema);

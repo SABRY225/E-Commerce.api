@@ -9,15 +9,27 @@ const OrderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Prouduct',
     },
-    paymentID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Payment',
-    },
     orderData: {
         type: Date,
         required: true
     },
-    Status: {
+    paymentType: {
+        type: String,
+        enum: ['Cash',"Credit Card"],
+        default:"Cash",
+        required: true
+    },
+    paymentStatus: {
+        type: String,
+        enum: ['Done',"Not Done"],
+        default:"Not Done",
+        required: true
+    },
+    paymentData: {
+        type: Date,
+        required: true
+    },
+    status: {
         type: String,
         required: true,
         enum: ['SendToAdmin',"SendToDelivery", 'NotDone','NotDone'],

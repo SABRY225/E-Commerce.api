@@ -161,21 +161,36 @@ router.get('/deliveryPersonnels', isAuth, getDeliveryPersonnels);
 
 /**
  * @swagger
- * /api/deliveryPersonnel/add-assignOrder:
+ * /api/deliveryPersonnel/{orderId}/add-assignOrder:
  *   post:
  *     summary: Assign a new order to a delivery personnel
  *     tags: [deliveryPersonnel]
+ *     parameters:
+ *       - in: path
+ *         name: orderId
+ *         schema:
+ *           type: string
+ *         required: true
+  *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               personnelId:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Order assigned successfully
  *       400:
  *         description: Bad request
  */
-router.post('/add-assignOrder', isAuth, addAssignOrder);
+router.post('/:orderId/add-assignOrder', isAuth, addAssignOrder);
 
 /**
  * @swagger
- * /api/deliveryPersonnel/delete-assignOrder/{orderId}:
+ * /api/deliveryPersonnel/{orderId}/delete-assignOrder:
  *   delete:
  *     summary: Delete an assigned order
  *     tags: [deliveryPersonnel]
@@ -185,7 +200,6 @@ router.post('/add-assignOrder', isAuth, addAssignOrder);
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the order to delete
  *     responses:
  *       200:
  *         description: Order deleted successfully
@@ -194,11 +208,11 @@ router.post('/add-assignOrder', isAuth, addAssignOrder);
  *       404:
  *         description: Order not found
  */
-router.delete('/delete-assignOrder/:orderId', isAuth, deleteAssignOrder);
+router.delete('/:orderId/delete-assignOrder', isAuth, deleteAssignOrder);
 
 /**
  * @swagger
- * /api/deliveryPersonnel/edit-assignOrder/{orderId}:
+ * /api/deliveryPersonnel/{orderId}/edit-assignOrder:
  *   put:
  *     summary: Edit an assigned order
  *     tags: [deliveryPersonnel]
@@ -208,17 +222,15 @@ router.delete('/delete-assignOrder/:orderId', isAuth, deleteAssignOrder);
  *         schema:
  *           type: string
  *         required: true
- *         description: The ID of the order to edit
- *       - in: body
- *         name: order
- *         description: Order object to be edited
- *         schema:
- *           type: object
- *           required:
- *             - status
- *           properties:
- *             status:
- *               type: string
+  *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               personnelId:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Order updated successfully
@@ -227,30 +239,29 @@ router.delete('/delete-assignOrder/:orderId', isAuth, deleteAssignOrder);
  *       404:
  *         description: Order not found
  */
-router.put('/edit-assignOrder/:orderId', isAuth, editAssignOrder);
+router.put('/:orderId/edit-assignOrder', isAuth, editAssignOrder);
 
 /**
  * @swagger
- * /api/deliveryPersonnel/status-order:
+ * /api/deliveryPersonnel/{orderId}/status-order:
  *   put:
  *     summary: Update the status of an order
  *     tags: [deliveryPersonnel]
  *     parameters:
- *       - in: body
- *         name: orderStatus
- *         description: Order status update object
+ *       - in: path
+ *         name: orderId
  *         schema:
- *           type: object
- *           required:
- *             - orderId
- *             - status
- *           properties:
- *             orderId:
- *               type: string
- *               description: The ID of the order
- *             status:
- *               type: string
- *               description: The new status of the order
+ *           type: string
+ *         required: true
+  *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Order status updated successfully
@@ -259,6 +270,6 @@ router.put('/edit-assignOrder/:orderId', isAuth, editAssignOrder);
  *       404:
  *         description: Order not found
  */
-router.put('/status-order', isAuth, updateOrderStatus);
+router.put('/:orderId/status-order', isAuth, updateOrderStatus);
 
 module.exports = router;

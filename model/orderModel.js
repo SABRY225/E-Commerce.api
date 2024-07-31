@@ -1,39 +1,49 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-    categoryID: {
+    customerID: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: 'Customer',
+        required: true // Assuming each order must have a customer
     },
-    prouductID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Prouduct',
-    },
-    orderData: {
-        type: Date,
-        required: true
+    products: [
+        {
+            productID: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product', // Correct model assumed as 'Product'
+                required: true // Assuming each product must be linked
+            },
+            quantity: {
+                type: Number,
+                required: true
+            },
+            price: {
+                type: Number,
+                required: true
+            },
+        }
+    ],
+    orderDate: { // Renamed for clarity
+        type: String,
+        default: Date.now, 
     },
     paymentType: {
         type: String,
-        enum: ['Cash',"Credit Card"],
-        default:"Cash",
-        required: true
+        enum: ['Cash', 'Credit Card'],
+        default: 'Cash'
     },
     paymentStatus: {
         type: String,
-        enum: ['Done',"Not Done"],
-        default:"Not Done",
-        required: true
+        enum: ['Done', 'Not Done'],
+        default: 'Not Done'
     },
-    paymentData: {
-        type: Date,
-        required: true
+    paymentDate: { // Renamed for clarity
+        type: String
     },
     status: {
         type: String,
-        required: true,
-        enum: ['SendToAdmin',"SendToDelivery", 'NotDone','NotDone'],
-        default:"SendToAdmin"
+        enum: ['SendToAdmin', 'SendToDelivery',"Done", 'Not Done'],
+        default: 'SendToAdmin'
     },
 });
 

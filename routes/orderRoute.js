@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../middleware/isAuth');
-const { crateOrder, getOrder, getOrders, deleteOrder, editOrder, updateOrderStatus } = require('../controller/orderController');
+const { createOrder, getOrder, getOrders, deleteOrder, editOrder } = require('../controller/orderController');
 
 /**
  * @swagger
@@ -16,13 +16,38 @@ const { crateOrder, getOrder, getOrders, deleteOrder, editOrder, updateOrderStat
  *   post:
  *     summary: Create a new order
  *     tags: [Order]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               products:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     productID:
+ *                       type: string
+ *                       example: '60b8d2a0f1a7f8cbb2e5d5a3'
+ *                     quantity:
+ *                       type: number
+ *                       example: 3
+ *                     price:
+ *                       type: number
+ *                       example: 29.99
+ *               paymentType:
+ *                 type: string
+ *                 enum: ['Cash', 'Credit Card']
+ *                 example: 'Credit Card'
  *     responses:
  *       201:
  *         description: Order created successfully
  *       400:
  *         description: Bad request
  */
-router.post('/create-order', isAuth, crateOrder);
+router.post('/create-order', isAuth, createOrder);
 
 /**
  * @swagger
@@ -37,6 +62,31 @@ router.post('/create-order', isAuth, crateOrder);
  *           type: string
  *         required: true
  *         description: The ID of the order to edit
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               products:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     productID:
+ *                       type: string
+ *                       example: '60b8d2a0f1a7f8cbb2e5d5a3'
+ *                     quantity:
+ *                       type: number
+ *                       example: 3
+ *                     price:
+ *                       type: number
+ *                       example: 29.99
+ *               paymentType:
+ *                 type: string
+ *                 enum: ['Cash', 'Credit Card']
+ *                 example: 'Credit Card'
  *     responses:
  *       200:
  *         description: Order updated successfully
@@ -105,36 +155,5 @@ router.get('/order/:orderId', isAuth, getOrder);
  */
 router.get('/orders', isAuth, getOrders);
 
-/**
- * @swagger
- * /api/order/status-order:
- *   put:
- *     summary: Update the status of an order
- *     tags: [Order]
- *     parameters:
- *       - in: body
- *         name: orderStatus
- *         description: Order status update object
- *         schema:
- *           type: object
- *           required:
- *             - orderId
- *             - status
- *           properties:
- *             orderId:
- *               type: string
- *               description: The ID of the order
- *             status:
- *               type: string
- *               description: The new status of the order
- *     responses:
- *       200:
- *         description: Order status updated successfully
- *       400:
- *         description: Bad request
- *       404:
- *         description: Order not found
- */
-router.put('/status-order', isAuth, updateOrderStatus);
 
 module.exports = router;

@@ -27,7 +27,7 @@ const register = async (req, res, next) => {
             Email,
             Otp
         });
-        newOTP.save();
+        await newOTP.save();
         // Find the most recent OTP for the email
         const response = await OTP.find({ Email }).sort({ createdAt: -1 }).limit(1);
         console.log("response",response.length);

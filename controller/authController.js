@@ -71,7 +71,7 @@ const login = async (req, res, next) => {
         }
         // Generate JWT token
         const tokenData = { userId: user._id };
-        const token = jwt.sign(tokenData, '.njjfjfhjslslshfjiaoaosfkpjfjfj', { expiresIn: '1h' });
+        const token = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         let Role = user.Role || "";
 
@@ -116,14 +116,28 @@ const forgetPassword = async (req, res, next) => {
 // Refresh token
 const refreshToken = async (req, res, next) => {
     const { token } = req.body;
+
     if (!token) {
         return res.status(401).json({ msg: 'No token provided' });
     }
+
     try {
-        const decoded = jwt.verify(token, '.njjfjfhjslslshfjiaoaosfkpjfjfj'); 
-        const payload = { user: { id: decoded.userId } };
-        jwt.sign(payload, '.njjfjfhjslslshfjiaoaosfkpjfjfj', { expiresIn: '1h' }, (err, newToken) => {
-            if (err) throw err;
+        // تحقق من التوكين الأصلي
+        const decoded = jwt.verify(token, process.env.JWT_SECRET); // تأكد من أن SECRET يتم تحميله من البيئة
+        const userId = decoded.userId; // تحقق من أن البيانات التي تحتاجها موجودة في التوكين
+
+        if (!userId) {
+            return res.status(401).json({ msg: 'Invalid token data' });
+        }
+
+        // قم بإنشاء توكين جديد يتضمن بيانات المستخدم
+        const payload = {userId};
+        console.log(payload);
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, newToken) => {
+            if (err) {
+                console.error(err.message);
+                return res.status(500).json({ msg: 'Error signing token' });
+            }
             res.status(200).json({ token: newToken });
         });
     } catch (err) {
@@ -131,7 +145,6 @@ const refreshToken = async (req, res, next) => {
         res.status(401).json({ msg: 'Invalid token' });
     }
 };
-
 module.exports = {
     register,
     login,

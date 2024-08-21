@@ -4,15 +4,9 @@ const swaggerSpec = require('./swagger/swaggerConfig');
 const jwt = require('jsonwebtoken');
 const swaggerUi = require('swagger-ui-express');
 const cors = require('cors');
-require('dotenv').config(); // تحميل متغيرات البيئة
 
 const { app, server } = require('./Socket/socket');
-
-// استخدام متغير baseUrl من البيئة
-const baseUrl = 'e-commerceapi-production-0f8f.up.railway.app'; 
-
-// إعدادات CORS
-const allowedOrigins = process.env.BASE_URL;
+const allowedOrigins = [process.env.PORT2, process.env.PORT3];
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -26,10 +20,9 @@ const corsOptions = {
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
-
+require('dotenv').config();
 app.use(express.json());
-app.use(cors(corsOptions)); // استخدم خيارات CORS
-
+app.use(cors());
 // Connect Database
 connectDB();
 
@@ -43,6 +36,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', (req, res) => {
     res.send('Server is running');
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

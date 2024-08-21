@@ -12,7 +12,7 @@ const { app, server } = require('./Socket/socket');
 const baseUrl = 'e-commerceapi-production-0f8f.up.railway.app'; 
 
 // إعدادات CORS
-const allowedOrigins = [process.env.BASE_URL];
+const allowedOrigins = process.env.BASE_URL;
 
 const corsOptions = {
     origin: (origin, callback) => {

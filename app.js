@@ -9,10 +9,10 @@ require('dotenv').config(); // تحميل متغيرات البيئة
 const { app, server } = require('./Socket/socket');
 
 // استخدام متغير baseUrl من البيئة
-const baseUrl = process.env.BASE_URL || 'http://localhost:3000'; 
+const baseUrl = 'e-commerceapi-production-0f8f.up.railway.app'; 
 
 // إعدادات CORS
-const allowedOrigins = [process.env.PORT2, process.env.PORT3];
+const allowedOrigins = [process.env.BASE_URL];
 
 const corsOptions = {
     origin: (origin, callback) => {
@@ -42,11 +42,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Routes
 app.get('/', (req, res) => {
     res.send('Server is running');
-});
-
-// مثال لاستخدام baseUrl في أحد المسارات
-app.get('/api/some-endpoint', (req, res) => {
-    res.send(`Your base URL is: ${baseUrl}`);
 });
 
 const PORT = process.env.PORT || 3000;

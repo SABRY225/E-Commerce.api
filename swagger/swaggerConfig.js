@@ -20,7 +20,8 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:3000"
+                url: "https://e-commerceapi-production-0f8f.up.railway.app"
+                // url: "http://localhost:3000"
             }
         ],
         security: [

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const CustomerSchema = new mongoose.Schema({
-    Role: {
+    role: {
         type: String,
         require:true,
         enum: ['User', 'Admin',"Delivery Personnel"],
@@ -15,24 +15,24 @@ const CustomerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Address: {
+    address: {
         type: String,
         required: true
     },
-    Email: {
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    Password: {
+    password: {
         type: String,
         required: true
     },
-    City: {
+    city: {
         type: String,
         required: true
     },
-    County: {
+    county: {
         type: String,
         required: true
     },

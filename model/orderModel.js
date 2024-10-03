@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = new mongoose.Schema({
-    customerID: {
+    customerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
         required: true // Assuming each order must have a customer
     },
     products: [
         {
-            productID: {
+            productId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product', // Correct model assumed as 'Product'
                 required: true // Assuming each product must be linked

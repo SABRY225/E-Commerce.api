@@ -18,13 +18,13 @@ const {
 
 /**
  * @swagger
- * /api/product/{categoryID}/create-product:
+ * /api/product/{categoryId}/create-product:
  *   post:
  *     summary: Create a new product
  *     tags: [Product]
  *     parameters:
  *       - in: path
- *         name: categoryID
+ *         name: categoryId
  *         schema:
  *           type: string
  *         required: true
@@ -55,7 +55,7 @@ const {
  *       400:
  *         description: Bad request
  */
-router.post('/:categoryID/create-product', isAuth, createProduct);
+router.post('/:categoryId/create-product', isAuth, createProduct);
 /**
  * @swagger
  * /api/product/edit-product/{productId}:

@@ -23,10 +23,10 @@ const {  verifyOTP, sendOTP } = require('../controller/otpController');
  *           schema:
  *             type: object
  *             properties:
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Password:
+ *               password:
  *                 type: string
  *     responses:
  *       200:
@@ -47,20 +47,20 @@ router.post('/login', login);
  *           schema:
  *             type: object
  *             properties:
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Password:
+ *               password:
  *                 type: string
  *               firstName:
  *                 type: string
  *               lastName:
  *                 type: string
- *               County:
+ *               county:
  *                 type: string
- *               City:
+ *               city:
  *                 type: string
- *               Address:
+ *               address:
  *                 type: string
  *     responses:
  *       201:
@@ -83,10 +83,10 @@ router.post('/register', register);
  *           schema:
  *             type: object
  *             properties:
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Otp:
+ *               otp:
  *                 type: string
  *               newPassword:
  *                 type: string
@@ -111,7 +111,7 @@ router.put('/forget-password', forgetPassword);
  *           schema:
  *             type: object
  *             properties:
- *               Email:
+ *               email:
  *                 type: string 
  *                 format: email
  *     responses:
@@ -135,10 +135,10 @@ router.post('/send-otp',sendOTP);
  *           schema:
  *             type: object
  *             properties:
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Otp:
+ *               otp:
  *                 type: string
  *     responses:
  *       200:

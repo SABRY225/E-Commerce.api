@@ -29,7 +29,7 @@ const {
  *           schema:
  *             type: object
  *             properties:
- *               Type:
+ *               type:
  *                 type: string
  *               registrationNumber:
  *                 type: string
@@ -86,7 +86,7 @@ router.delete('/delete-vehicle/:vehicleId', isAuth, deleteVehicle);
  *           schema:
  *             type: object
  *             properties:
- *               Type:
+ *               type:
  *                 type: string
  *               registrationNumber:
  *                 type: string

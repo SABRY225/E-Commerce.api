@@ -39,16 +39,16 @@ const {
  *           schema:
  *             type: object
  *             properties:
- *               Name:
+ *               name:
  *                 type: string
- *               Phone:
+ *               phone:
  *                 type: string
- *               Address:
+ *               address:
  *                 type: string
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Password:
+ *               password:
  *                 type: string
  *     responses:
  *       201:
@@ -101,16 +101,16 @@ router.delete('/delete-deliveryPersonnel/:personnelId', isAuth, deleteDeliveryPe
  *           schema:
  *             type: object
  *             properties:
- *               Name:
+ *               name:
  *                 type: string
- *               Phone:
+ *               phone:
  *                 type: string
- *               Address:
+ *               address:
  *                 type: string
- *               Email:
+ *               email:
  *                 type: string
  *                 format: email
- *               Password:
+ *               password:
  *                 type: string
  *               vehicleID:
  *                 type: string

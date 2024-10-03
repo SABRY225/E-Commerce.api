@@ -3,20 +3,17 @@ const Vehicle = require('../model/vehicleModel');
 // Add a new vehicle
 const addVehicle = async (req, res, next) => {
     try {
-        const { Type, registrationNumber, availabilityStatus } = req.body;
+        const { type, registrationNumber, availabilityStatus } = req.body;
 
-        if (!Type || !registrationNumber || !availabilityStatus) {
-            return res.status(400).json({ message: 'All fields are required' });
+        if (!type || !registrationNumber || !availabilityStatus) {
+            return res.status(200).json({ message: 'All fields are required',success:false });
         }
 
-        const newVehicle = new Vehicle({ Type, registrationNumber, availabilityStatus });
+        const newVehicle = new Vehicle({ type, registrationNumber, availabilityStatus });
         await newVehicle.save();
-        res.status(201).json(newVehicle);
+        res.status(201).json({ message: 'add Vehicle successfully',success:false });
     } catch (error) {
-        if (error.code === 11000) { // Handle duplicate key error
-            return res.status(400).json({ message: 'Registration number already exists' });
-        }
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 }
 
@@ -24,17 +21,15 @@ const addVehicle = async (req, res, next) => {
 const deleteVehicle = async (req, res, next) => {
     try {
         const { vehicleId  } = req.params;
-
-
         const deletedVehicle = await Vehicle.findByIdAndDelete(vehicleId);
 
         if (!deletedVehicle) {
-            return res.status(404).json({ message: 'Vehicle not found' });
+            return res.status(200).json({ message: 'Vehicle not found',success:false });
         }
 
-        res.status(200).json({ message: 'Vehicle deleted successfully' });
+        res.status(200).json({ message: 'Vehicle deleted successfully',success:true });
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 }
 
@@ -42,29 +37,26 @@ const deleteVehicle = async (req, res, next) => {
 const editVehicle = async (req, res, next) => {
     try {
         const { vehicleId } = req.params;
-        const { Type, registrationNumber, availabilityStatus } = req.body;
+        const { type, registrationNumber, availabilityStatus } = req.body;
 
-        if (!Type || !registrationNumber || !availabilityStatus) {
-            return res.status(400).json({ message: 'All fields are required' });
+        if (!type || !registrationNumber || !availabilityStatus) {
+            return res.status(200).json({ message: 'All fields are required',success:false });
         }
 
     
         const updatedVehicle = await Vehicle.findByIdAndUpdate(
             vehicleId,
-            { Type, registrationNumber, availabilityStatus },
+            { type, registrationNumber, availabilityStatus },
             { new: true, runValidators: true }
         );
 
         if (!updatedVehicle) {
-            return res.status(404).json({ message: 'Vehicle not found' });
+            return res.status(200).json({ message: 'Vehicle not found' , success:false});
         }
 
-        res.status(200).json(updatedVehicle);
+        res.status(200).json({ message: 'Vehicle update successfully' , success:true});
     } catch (error) {
-        if (error.code === 11000) { // Duplicate key error for registrationNumber
-            return res.status(400).json({ message: 'Registration number must be unique' });
-        }
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 }
 
@@ -72,17 +64,14 @@ const editVehicle = async (req, res, next) => {
 const getVehicle = async (req, res, next) => {
     try {
         const { vehicleId } = req.params;
-
-
         const vehicle = await Vehicle.findById(vehicleId);
-
         if (!vehicle) {
-            return res.status(404).json({ message: 'Vehicle not found' });
+            return res.status(200).json({ message: 'Vehicle not found',success:false });
         }
 
-        res.status(200).json(vehicle);
+        return res.status(200).json(vehicle);
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 }
 
@@ -90,9 +79,10 @@ const getVehicle = async (req, res, next) => {
 const getVehicles = async (req, res, next) => {
     try {
         const vehicles = await Vehicle.find();
-        res.status(200).json(vehicles);
+        return res.status(200).json(vehicles);
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
+
     }
 }
 

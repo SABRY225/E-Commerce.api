@@ -10,7 +10,7 @@ const formatDate = (date) => {
 // Create Order Function
 const createOrder = async (req, res, next) => {
     try {
-        const customerID = req.userId;
+        const customerId = req.userId;
         const {
             products,
             paymentType,
@@ -25,14 +25,12 @@ const createOrder = async (req, res, next) => {
             orderDate,
             paymentType,
             paymentDate,
-            customerID
+            customerId
         });
-
-        console.log(order);
         await order.save();
-        res.status(201).json({ message: 'Order created successfully', order });
+        return res.status(201).json({ message: 'Order created successfully', success: true });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
@@ -50,42 +48,42 @@ const editOrder = async (req, res, next) => {
         });
 
         if (!updatedOrder) {
-            return res.status(404).json({ error: 'Order not found' });
+            return res.status(200).json({ message: 'Order not found', success: false });
         }
 
-        res.status(200).json({ message: 'Order updated successfully', updatedOrder });
+        return res.status(200).json({ message: 'Order updated successfully', success: true });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
 const getOrder = async (req, res, next) => {
     try {
         const order = await Order.findById(req.params.orderId);
-        if (!order) return res.status(404).json({ message: 'Order not found' });
-        res.json(order);
+        if (!order) return res.status(200).json({ message: 'Order not found',success: false });
+        return res.status(200).json(order);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
 const getOrders = async (req, res, next) => {
     try {
         const orders = await Order.find();
-        if (orders.length === 0) return res.status(404).json({ message: 'No orders found' });
-        res.json(orders);
+        if (orders.length === 0) return res.status(200).json({ message: 'No orders found',success: false });
+        return res.status(200).json(orders);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 
 const deleteOrder = async (req, res, next) => {
     try {
         const order = await Order.findByIdAndDelete(req.params.orderId);
-        if (!order) return res.status(404).json({ message: 'Order not found' });
-        res.json({ message: 'Order deleted successfully' });
+        if (!order) return res.status(200).json({ message: 'Order not found',success: false });
+        return res.status(200).json({ message: 'Order deleted successfully',success: true });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        return res.status(500).json({ error: error.message });
     }
 };
 

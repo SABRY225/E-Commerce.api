@@ -28,7 +28,7 @@ const { createOrder, getOrder, getOrders, deleteOrder, editOrder } = require('..
  *                 items:
  *                   type: object
  *                   properties:
- *                     productID:
+ *                     productId:
  *                       type: string
  *                       example: '60b8d2a0f1a7f8cbb2e5d5a3'
  *                     quantity:
@@ -74,7 +74,7 @@ router.post('/create-order', isAuth, createOrder);
  *                 items:
  *                   type: object
  *                   properties:
- *                     productID:
+ *                     productId:
  *                       type: string
  *                       example: '60b8d2a0f1a7f8cbb2e5d5a3'
  *                     quantity:

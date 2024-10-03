@@ -41,11 +41,11 @@ router.get('/current-user', isAuth,getUser);
  *                 type: string
  *               lastName:
  *                 type: string
- *               City:
+ *               city:
  *                 type: string
- *               County:
+ *               county:
  *                 type: string
- *               Address:
+ *               address:
  *                 type: string
  *     responses:
  *       200:
@@ -57,13 +57,13 @@ router.put('/edit-info', isAuth,editUser);
 
 /**
  * @swagger
- * /api/user/delete-user/{userID}:
+ * /api/user/delete-user/{userId}:
  *   delete:
  *     summary: Delete user
  *     tags: [User]
  *     parameters:
  *       - in: path
- *         name: userID
+ *         name: userId
  *         schema:
  *           type: string
  *         required: true
@@ -76,7 +76,7 @@ router.put('/edit-info', isAuth,editUser);
  *       404:
  *         description: User not found
  */
-router.delete('/delete-user/:userID', isAuth, deleteUser);
+router.delete('/delete-user/:userId', isAuth, deleteUser);
 
 
 /**

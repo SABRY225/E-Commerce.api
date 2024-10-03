@@ -2,9 +2,9 @@ require('dotenv').config();
 const Product = require('../model/prouductModel');
 
 const createProduct = async (req, res, next) => {
-    const {categoryID }=req.params
-    if (!categoryID) {
-        return res.status(400).json({msg:"Category not Found"});
+    const {categoryId }=req.params
+    if (!categoryId) {
+        return res.status(200).json({message:"Category not Found",success: false });
     }
   try {
     const {
@@ -18,18 +18,18 @@ const createProduct = async (req, res, next) => {
 
     const product = new Product({
       productName,
-      productImg, // Assign productImg here
+      productImg, 
       quantity,
       price,
       productDescription,
       productReview,
-      categoryID
+      categoryId
     });
 
     await product.save();
-    return res.status(200).json({msg:"product added successfully"});
+    return res.status(200).json({message:"product added successfully",success: false });
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -48,7 +48,7 @@ const editProduct = async (req, res, next) => {
       const isValidOperation = updates.every(update => allowedUpdates.includes(update));
       
       if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' });
+        return res.status(200).json({ message: 'Invalid updates!',success: false  });
       }
   
       const product = await Product.findByIdAndUpdate(
@@ -58,12 +58,14 @@ const editProduct = async (req, res, next) => {
       );
   
       if (!product) {
-        return res.status(404).send();
+        return res.status(200).json({ message: 'Invalid updates!',success: false  });
       }
   
-      res.send(product);
+      return res.status(200).json({ success: true, message:"product updated successfully" });
+
     } catch (error) {
-      res.status(400).send(error);
+      return res.status(500).json({ success: false, error: error.message });
+
     }
   };
   
@@ -71,13 +73,12 @@ const deleteProduct = async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.productId);
     if (!product) {
-        return res.status(404).send();
+        return res.status(200).json({message:"product not found",success: false});
     }else{
-      return res.status(200).json({msg:"product deleted successfully"});
-
+      return res.status(200).json({message:"product deleted successfully",success: true});
     }
   } catch (error) {
-    return res.status(400).json({msg:"product Not Found"});
+      return res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -85,20 +86,20 @@ const getProduct = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.productId);
     if (!product) {
-      return res.status(400).json({msg:"product Not Found"});
+      return res.status(200).json({message:"product Not Found",success: false});
     }
-    res.send(product);
+    return  res.status(200).json(product);
   } catch (error) {
-    return res.status(400).json({msg:"product Not Found"});
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
 const getProducts = async (req, res, next) => {
   try {
-    const products = await Product.find({});
-    res.send(products);
+    const products = await Product.find();
+    return res.status(200).json(products);
   } catch (error) {
-    res.status(400).send(error);
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 

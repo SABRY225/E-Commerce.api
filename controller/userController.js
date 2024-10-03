@@ -7,11 +7,11 @@ const getUser = async (req, res, next) => {
     try {
         const user = await Customer.findById(req.userId); // Assuming user ID is available in req.user
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(200).json({ message: 'User not found',success: false });
         }
-        res.status(200).json(user);
+        return res.status(200).json(user);
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 };
 
@@ -22,11 +22,11 @@ const getUsers = async (req, res, next) => {
     try {
         const users = await Customer.find();
         if (users.length === 0) {
-            return res.status(404).json({ message: 'No users found' });
+            return res.status(200).json({ message: 'No users found',success: false });
         }
-        res.status(200).json(users);
+       return res.status(200).json(users);
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 };
 
@@ -35,18 +35,19 @@ const getUsers = async (req, res, next) => {
  */
 const editUser = async (req, res, next) => {
     try {
-        const { firstName,lastName, Address,City,County } = req.body; // Adjust according to your user schema
+        const { firstName,lastName, address,city,county } = req.body; // Adjust according to your user schema
         const updatedUser = await Customer.findByIdAndUpdate(
             req.userId,
-            {firstName,lastName, Address,City,County }, // Fields to update
+            {firstName,lastName, address,city,county }, // Fields to update
             { new: true, runValidators: true }
         );
         if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(200).json({ message: 'User not found',success: false });
         }
-        res.status(200).json(updatedUser);
+        return res.status(200).json({ message: 'User updated successfully',success: true });
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
+
     }
 };
 
@@ -55,15 +56,15 @@ const editUser = async (req, res, next) => {
  */
 const deleteUser = async (req, res, next) => {
     try {
-        const { userID } = req.params;
+        const { userId } = req.params;
 
-        const user = await Customer.findByIdAndDelete(userID); // Make sure to use the correct model.
+        const user = await Customer.findByIdAndDelete(userId); // Make sure to use the correct model.
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(200).json({ message: 'User not found',success: false });
         }
-        res.status(200).json({ message: 'User deleted successfully' });
+        return res.status(200).json({ message: 'User deleted successfully', success: true });
     } catch (error) {
-        next(error);
+        return res.status(500).json({ success: false, error: error.message });
     }
 };
 
